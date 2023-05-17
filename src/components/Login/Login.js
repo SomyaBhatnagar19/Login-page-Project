@@ -9,13 +9,17 @@ const Login = (props) => {
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState();
+  // college name field
+  const [enteredcollegeName, setEnteredcollegeName] = useState("");
+  const [collegeNameIsValid, setcollegeNameIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
+  
 
   useEffect(() => {
     setFormIsValid(
-      enteredEmail.includes("@") && enteredPassword.trim().length > 6
+      enteredEmail.includes("@") && enteredPassword.trim().length > 6 && enteredcollegeName.trim().length > 0
     );
-  }, [enteredEmail, enteredPassword]);
+  }, [enteredEmail, enteredPassword, enteredcollegeName]);
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
 
@@ -32,6 +36,10 @@ const Login = (props) => {
     // );
   };
 
+  const collegeNameChangeHandler = (event) => {
+    setEnteredcollegeName(event.target.value);
+  };
+
   const validateEmailHandler = () => {
     setEmailIsValid(enteredEmail.includes("@"));
   };
@@ -40,9 +48,13 @@ const Login = (props) => {
     setPasswordIsValid(enteredPassword.trim().length > 6);
   };
 
+  const validateCollegeNameHandler = () => {
+    setcollegeNameIsValid(enteredcollegeName.trim().length > 6);
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    props.onLogin(enteredEmail, enteredPassword, enteredcollegeName);
   };
 
   return (
@@ -74,6 +86,21 @@ const Login = (props) => {
             value={enteredPassword}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
+          />
+        </div>
+        {/* Adding college name field & validations */}
+        <div
+          className={`${classes.control} ${
+            collegeNameIsValid === false ? classes.invalid : ""
+          }`}
+        >
+          <label htmlFor="CollegeName">College Name</label>
+          <input
+            type="text"
+            id="CollegeName"
+            value={enteredcollegeName}
+            onChange={collegeNameChangeHandler}
+            onBlur={validateCollegeNameHandler}
           />
         </div>
         <div className={classes.actions}>
